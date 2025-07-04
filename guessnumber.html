@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess the Number Game</title>
+  <style>
+    .game {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.5s;
+    }
+
+    .game-container {
+      background: white;
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 300px;
+    }
+
+    h1 {
+      color: #004e9b;
+    }
+
+    input {
+      width: 80%;
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      font-size: 16px;
+      background-color: #004e9b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      background-color: #999;
+      margin-left: 10px;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    #score-board {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+        .part1{
+        height:20px;
+        background-color: #002278;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+         padding: 15px 30px;
+        align-items: center;
+       
+    }
+  </style>
+</head>
+<body>
+          <div class="part1">
+        <h2>Guess The Number</h2>
+    </div>
+  <div class="game">
+
+  <div class="game-container">
+    <h1>Guess the Number!</h1>
+    <p>I am thinking of a number between 1 and 100.</p>
+    <input type="number" id="guessInput" placeholder="Enter your guess" />
+    <button class="guess-btn">Guess</button>
+    <button class="reset-btn">Restart</button>
+    <p id="message"></p>
+    <div id="score-board">
+      Score: <span id="score">10</span> | High Score: <span id="highscore">0</span>
+    </div>
+  </div>
+</div>
+  <script>
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    let score = 10;
+    let highScore = 0;
+
+    const body = document.querySelector('body');
+     const gamecontainer = document.querySelector('gamecontainer');
+    const guessInput = document.querySelector('#guessInput');
+    const message = document.querySelector('#message');
+    const scoreDisplay = document.querySelector('#score');
+    const highScoreDisplay = document.querySelector('#highscore');
+    const guessButton = document.querySelector('.guess-btn');
+    const resetButton = document.querySelector('.reset-btn');
+
+    guessButton.addEventListener('click', checkGuess);
+    resetButton.addEventListener('click', resetGame);
+
+    function checkGuess() {
+      const userGuess = Number(guessInput.value);
+
+      if (!userGuess || userGuess < 1 || userGuess > 100) {
+        message.textContent = 'Enter number between 1 and 10!';
+        message.style.color = 'red';
+        return;
+      }
+
+      if (userGuess === randomNumber) {
+        message.textContent = 'Correct! You guessed it!';
+        message.style.color = 'green';
+        body.style.backgroundColor = '#90ee90';
+
+        if (score > highScore) {
+          highScore = score;
+          highScoreDisplay.textContent = highScore;
+        }
+      } else {
+        if (score > 1) {
+          score--;
+          scoreDisplay.textContent = score;
+          message.textContent = userGuess > randomNumber ? 'Too high!' : 'Too low!';
+          message.style.color = 'orange';
+        } else {
+          score = 0;
+          scoreDisplay.textContent = score;
+          message.textContent = 'Game Over!';
+          message.style.color = 'red';
+          body.style.backgroundColor = '#FF0000';
+
+        }
+      }
+    }
+
+    function resetGame() {
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+      score = 10;
+      scoreDisplay.textContent = score;
+      guessInput.value = '';
+      message.textContent = '';
+      body.style.backgroundColor = '#f0f8ff';
+    }
+  </script>
+</body>
+</html>
